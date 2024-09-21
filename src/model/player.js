@@ -30,19 +30,22 @@ const Player = (ships, length = 10) => {
 
   const placeShip = (ship, start, direction = Direction.Vertical) => {
     if (_stage !== Stage.Placing) return null;
-    if (!Object.values(Direction).includes(direction))
-      throw new Error("Illegal direction value.");
     if (!_ships.includes(ship)) throw new Error("Illegal ship.");
     const [x, y] = start.split("-").map(Number);
     let positions = [];
     if (direction === Direction.Vertical) {
+      console.log("here!");
       for (let i = 0; i < ship.get().length; i++) {
         positions.push(`${x}-${y + i}`);
       }
-    } else {
+    } else if (direction === Direction.Horizontal)  {
+      console.log("here!");
       for (let i = 0; i < ship.get().length; i++) {
         positions.push(`${x + i}-${y}`);
       }
+    } else {
+      console.log("there!");
+      throw new Error("Illegal direction value.");
     }
     if (_gameBoard.placeShip(ship, positions)) return positions;
     return null;

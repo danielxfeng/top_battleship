@@ -59,6 +59,17 @@ test("placeShip, outbound case", () => {
   expect(player1.placeShip(ships1[1], "9-9", 1)).toBeNull();
 });
 
+test("placeShip, illegal ship", () => {
+  player1.setStage(1);
+  const ship = Ship("s", 1);
+  expect(() => {player1.placeShip(ship, "5-5")}).toThrow();
+});
+
+test("placeShip, illegal direction", () => {
+  player1.setStage(1);
+  expect(() => {player1.placeShip(ships1[1], "0-0", 2)}).toThrow();
+});
+
 test("attack and receive attacking, normal case", () => {
   player2.setStage(1);
   expect(player2.placeShip(ships2[1], "0-0", 1)).toEqual(["0-0", "1-0"]);
@@ -85,6 +96,11 @@ test("attack and receive attacking, missed attack case", () => {
   player1.setStage(2);
   player2.setStage(2);
   expect(player1.attack("2-2")).toBeNull();
+});
+
+test("attack and receive attacking, illegal stage", () => {
+  expect(player1.attack("2-2")).toBeUndefined();
+  expect(player1.receiveAttack("2-2")).toBeUndefined();
 });
 
 test("lose, normal case1", () => {
