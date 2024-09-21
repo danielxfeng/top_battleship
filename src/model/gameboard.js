@@ -13,7 +13,7 @@ const Gameboard = (length = 10) => {
   };
 
   const _validPoint = (point) => {
-    const [x, y] = point.split("-");
+    const [x, y] = point.split("-").map(Number);
     return x >= 0 && y >= 0 &&  x < _length &&  y < _length;
   };
 
