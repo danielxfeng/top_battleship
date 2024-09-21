@@ -1,4 +1,4 @@
-import Ship from "../model/ship";
+import Ship from "../src/model/ship";
 
 let ship;
 
