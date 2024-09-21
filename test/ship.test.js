@@ -16,11 +16,11 @@ test("test ship hit", () => {
 });
 
 test("test ship isSunk false", () => {
-  expect(ship.isSunk()).toBeFalsy();;
+  expect(ship.isSunk()).toBeFalsy();
 });
 
 test("test ship isSunk true", () => {
   ship.hit();
   ship.hit();
   expect(ship.isSunk()).toBeTruthy();
-})
+});

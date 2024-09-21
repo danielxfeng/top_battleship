@@ -24,7 +24,9 @@ const Player = (ships, length = 10) => {
     _stage = stage;
   };
 
-  const setOpposite = (player) => { _opposite = player };
+  const setOpposite = (player) => {
+    _opposite = player;
+  };
 
   const placeShip = (ship, start, direction = Direction.Vertical) => {
     if (_stage !== Stage.Placing) return null;
@@ -55,7 +57,7 @@ const Player = (ships, length = 10) => {
   const receiveAttack = (point) => {
     if (_stage !== Stage.Attacking) return undefined;
     return _gameBoard.receiveAttack(point);
-  }
+  };
 
   const lose = () => {
     return _gameBoard.lose();

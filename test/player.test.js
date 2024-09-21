@@ -36,28 +36,28 @@ test("setOpposite, normal case", () => {
   player1.setStage(2);
   player2.setStage(2);
   expect(player1.attack("0-0")).toBeNull();
-})
+});
 
 test("placeShip, normal case1", () => {
   player1.setStage(1);
   expect(player1.placeShip(ships1[1], "0-0")).toEqual(["0-0", "0-1"]);
-})
+});
 
 test("placeShip, normal case2", () => {
   player1.setStage(1);
   expect(player1.placeShip(ships1[1], "0-0", 1)).toEqual(["0-0", "1-0"]);
-})
+});
 
 test("placeShip, occupied case", () => {
   player1.setStage(1);
   expect(player1.placeShip(ships1[1], "0-0", 1)).toEqual(["0-0", "1-0"]);
   expect(player1.placeShip(ships1[2], "1-0", 1)).toBeNull();
-})
+});
 
 test("placeShip, outbound case", () => {
   player1.setStage(1);
   expect(player1.placeShip(ships1[1], "9-9", 1)).toBeNull();
-})
+});
 
 test("attack and receive attacking, normal case", () => {
   player2.setStage(1);
@@ -66,7 +66,7 @@ test("attack and receive attacking, normal case", () => {
   player1.setStage(2);
   player2.setStage(2);
   expect(player1.attack("0-0")).toEqual(ships2[1]);
-})
+});
 
 test("attack and receive attacking, duplicated attack case", () => {
   player2.setStage(1);
@@ -76,7 +76,7 @@ test("attack and receive attacking, duplicated attack case", () => {
   player2.setStage(2);
   expect(player1.attack("0-0")).toEqual(ships2[1]);
   expect(player1.attack("0-0")).toBeUndefined();
-})
+});
 
 test("attack and receive attacking, missed attack case", () => {
   player2.setStage(1);
@@ -85,7 +85,7 @@ test("attack and receive attacking, missed attack case", () => {
   player1.setStage(2);
   player2.setStage(2);
   expect(player1.attack("2-2")).toBeNull();
-})
+});
 
 test("lose, normal case1", () => {
   player2.setStage(1);
@@ -94,7 +94,7 @@ test("lose, normal case1", () => {
   player1.setStage(2);
   player2.setStage(2);
   expect(player2.lose()).toBeFalsy();
-})
+});
 
 test("lose, normal case2", () => {
   player2.setStage(1);
@@ -111,4 +111,4 @@ test("lose, normal case2", () => {
   ships2[2].hit();
   ships2[2].hit();
   expect(player2.lose()).toBeTruthy();
-})
+});
