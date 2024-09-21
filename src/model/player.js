@@ -1,22 +1,15 @@
 import Gameboard from "./gameboard";
+import { Stage, Direction } from "./enums"
 
-const Stage = Object.freeze({
-  Over: 0,
-  Placing: 1,
-  Attacking: 2,
-});
-
-const Direction = Object.freeze({
-  Vertical: 0,
-  Horizontal: 1,
-});
-
-const Player = (ships, length = 10) => {
+const Player = (ships, isAuto = false, length = 10) => {
+  const _isAuto = isAuto;
   const _length = length;
   const _ships = ships;
   const _gameBoard = Gameboard(_length);
   let _stage = Stage.Over;
   let _opposite = null;
+
+  const getIsAuto = () => { return _isAuto };
 
   const setStage = (stage) => {
     if (!Object.values(Stage).includes(stage))
@@ -34,17 +27,14 @@ const Player = (ships, length = 10) => {
     const [x, y] = start.split("-").map(Number);
     let positions = [];
     if (direction === Direction.Vertical) {
-      console.log("here!");
       for (let i = 0; i < ship.get().length; i++) {
         positions.push(`${x}-${y + i}`);
       }
     } else if (direction === Direction.Horizontal)  {
-      console.log("here!");
       for (let i = 0; i < ship.get().length; i++) {
         positions.push(`${x + i}-${y}`);
       }
     } else {
-      console.log("there!");
       throw new Error("Illegal direction value.");
     }
     if (_gameBoard.placeShip(ship, positions)) return positions;
@@ -66,7 +56,7 @@ const Player = (ships, length = 10) => {
     return _gameBoard.lose();
   };
 
-  return { setStage, setOpposite, placeShip, attack, receiveAttack, lose };
+  return { getIsAuto, setStage, setOpposite, placeShip, attack, receiveAttack, lose };
 };
 
 export default Player;
