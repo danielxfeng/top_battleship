@@ -98,7 +98,7 @@ const Controller = () => {
       : uiController.enableUserAttacking(player);
   };
 
-  const _autoAttack = player => {
+  const _autoAttack = (player) => {
     return setInterval(() => {
       const point = `${rand(_length)}-${rand(_length)}`;
       const res = player.attack(point);
