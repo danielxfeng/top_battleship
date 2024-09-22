@@ -67,7 +67,6 @@ test("startAttack and auto attacking logic", () => {
 });
 
 test("startAttack, user attack", () => {
-
   const rand = (limit) => {
     return Math.floor(Math.random() * 1000) % 10;
   };

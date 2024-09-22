@@ -29,7 +29,9 @@ const Controller = () => {
       const player = Player(i, ships, isAuto, _length);
       _shipList.push(ships);
       _playerList.push(player);
-      _playerList.forEach((player) => player.setOpposite(_playerList.find(p => p !== player)));
+      _playerList.forEach((player) =>
+        player.setOpposite(_playerList.find((p) => p !== player))
+      );
     }
   };
 
@@ -66,8 +68,11 @@ const Controller = () => {
     direction = Direction.Vertical
   ) => {
     const player = _playerList[parseInt(playerIdx)];
-    const ship = _shipList[playerIdx].find((ship) => ship.get().name === shipName);
-    if (!player || !ship) return uiController.msg("err", "Illegal player or ship.");
+    const ship = _shipList[playerIdx].find(
+      (ship) => ship.get().name === shipName
+    );
+    if (!player || !ship)
+      return uiController.msg("err", "Illegal player or ship.");
     const positions = player.placeShip(ship, start, direction);
     if (positions) {
       uiController.displayShip(player, positions);
@@ -100,8 +105,8 @@ const Controller = () => {
       const ship = player.attack(point);
       if (ship !== undefined) {
         if (ship) ship.hit();
-        uiController.displayAttacked(point)
-      };
+        uiController.displayAttacked(point);
+      }
       const losedPlayer = _playerList.find((player) => player.lose());
       if (losedPlayer) _setGameOver(losedPlayer);
     }, 500);
@@ -115,7 +120,8 @@ const Controller = () => {
 
   const attackByUser = (playerIdx, point) => {
     const player = _playerList[parseInt(playerIdx)];
-    if (!player || player.getIsAuto()) return uiController.msg("err", "Illegal player.");
+    if (!player || player.getIsAuto())
+      return uiController.msg("err", "Illegal player.");
     const ship = player.attack(point);
     if (ship !== undefined) {
       if (ship) ship.hit();
