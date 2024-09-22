@@ -18,9 +18,13 @@ const createShips = (player) => {
 beforeEach(() => {
   ships1 = createShips(1);
   ships2 = createShips(2);
-  player1 = Player(ships1);
-  player2 = Player(ships2);
+  player1 = Player(1, ships1);
+  player2 = Player(2, ships2);
 });
+
+test("getIdx test", () => {
+  expect(player1.getIdx()).toBe(1);
+})
 
 test("getIsAuto test", () => {
   expect(player1.getIsAuto()).toBeFalsy();
@@ -133,3 +137,18 @@ test("lose, normal case2", () => {
   ships2[2].hit();
   expect(player2.lose()).toBeTruthy();
 });
+
+test("placed normal case", () => {
+  player2.setStage(Stage.Placing);
+  expect(player2.placeShip(ships2[0], "0-0")).toEqual(["0-0"]);
+  expect(player2.placeShip(ships2[1], "1-0")).toEqual(["1-0", "1-1"]);
+  expect(player2.placeShip(ships2[2], "2-0")).toEqual(["2-0", "2-1", "2-2"]);
+  expect(player2.placed()).toBeTruthy();
+})
+
+test("placed false case", () => {
+  player2.setStage(Stage.Placing);
+  expect(player2.placeShip(ships2[0], "0-0")).toEqual(["0-0"]);
+  expect(player2.placeShip(ships2[1], "1-0")).toEqual(["1-0", "1-1"]);
+  expect(player2.placed()).toBeFalsy();
+})

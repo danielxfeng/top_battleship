@@ -1,15 +1,27 @@
 import Gameboard from "./gameboard";
-import { Stage, Direction } from "./enums"
+import { Stage, Direction } from "./enums";
 
-const Player = (ships, isAuto = false, length = 10) => {
+const Player = (idx, ships, isAuto = false, length = 10) => {
+  const _idx = idx;
   const _isAuto = isAuto;
   const _length = length;
   const _ships = ships;
   const _gameBoard = Gameboard(_length);
+  let _placed = 0;
   let _stage = Stage.Over;
   let _opposite = null;
 
-  const getIsAuto = () => { return _isAuto };
+  const getIdx = () => {
+    return _idx;
+  };
+
+  const getIsAuto = () => {
+    return _isAuto;
+  };
+
+  const placed = () => {
+    return _placed >= _ships.length;
+  };
 
   const setStage = (stage) => {
     if (!Object.values(Stage).includes(stage))
@@ -30,14 +42,17 @@ const Player = (ships, isAuto = false, length = 10) => {
       for (let i = 0; i < ship.get().length; i++) {
         positions.push(`${x}-${y + i}`);
       }
-    } else if (direction === Direction.Horizontal)  {
+    } else if (direction === Direction.Horizontal) {
       for (let i = 0; i < ship.get().length; i++) {
         positions.push(`${x + i}-${y}`);
       }
     } else {
       throw new Error("Illegal direction value.");
     }
-    if (_gameBoard.placeShip(ship, positions)) return positions;
+    if (_gameBoard.placeShip(ship, positions)) {
+      _placed++;
+      return positions;
+    }
     return null;
   };
 
@@ -56,7 +71,17 @@ const Player = (ships, isAuto = false, length = 10) => {
     return _gameBoard.lose();
   };
 
-  return { getIsAuto, setStage, setOpposite, placeShip, attack, receiveAttack, lose };
+  return {
+    getIdx,
+    getIsAuto,
+    placed,
+    setStage,
+    setOpposite,
+    placeShip,
+    attack,
+    receiveAttack,
+    lose,
+  };
 };
 
 export default Player;
