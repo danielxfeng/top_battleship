@@ -11,6 +11,7 @@ jest.mock("../src/controller/ui_controller", () => ({
   disableUserAttacking: jest.fn(),
   displayAttacked: jest.fn(),
   setGameOver: jest.fn(),
+  clearBoard: jest.fn(),
 }));
 
 let computerShips;
@@ -27,7 +28,7 @@ test("startPlaceShips and auto placing logic", () => {
   expect(uiController.enableUserPlaceShips.mock.calls.length).toBe(1);
   let allPositions = new Set();
   for (let i = 0; i < 4; i++) {
-    const positions = uiController.displayShip.mock.calls[i][1];
+    const positions = uiController.displayShip.mock.calls[i][1][0];
     expect(positions.length).toBe(i + 2);
     positions.forEach((position) => allPositions.add(position));
   }
@@ -37,22 +38,22 @@ test("startPlaceShips and auto placing logic", () => {
 });
 
 test("place ships by user, invalid placement", () => {
-  controller.placeShipByUser("1", "Player-1-ship-0", "0-0", 0);
-  controller.placeShipByUser("2", "Player-0-ship-0", "0-0", 0);
-  controller.placeShipByUser("0", "Player-0-ship-5", "0-0", 0);
+  controller.placeShipByUser("1", "player-1-ship-0", "0-0", 0);
+  controller.placeShipByUser("2", "player-0-ship-0", "0-0", 0);
+  controller.placeShipByUser("0", "player-0-ship-5", "0-0", 0);
   expect(uiController.msg).toHaveBeenCalledTimes(3);
 });
 
 test("place ships by user, normal case", () => {
-  controller.placeShipByUser("0", "Player-0-ship-0", "0-0", 0);
-  controller.placeShipByUser("0", "Player-0-ship-1", "1-0", 0);
-  controller.placeShipByUser("0", "Player-0-ship-2", "2-0", 0);
-  controller.placeShipByUser("0", "Player-0-ship-3", "3-0", 0);
-  controller.placeShipByUser("0", "Player-0-ship-3", "2-0", 0);
+  controller.placeShipByUser("0", "player-0-ship-0", "0-0", 0);
+  controller.placeShipByUser("0", "player-0-ship-1", "1-0", 0);
+  controller.placeShipByUser("0", "player-0-ship-2", "2-0", 0);
+  controller.placeShipByUser("0", "player-0-ship-3", "3-0", 0);
+  controller.placeShipByUser("0", "player-0-ship-3", "2-0", 0);
   expect(uiController.displayShip.mock.calls.length).toBe(4);
   let allPositions = new Set();
   for (let i = 0; i < 4; i++) {
-    const positions = uiController.displayShip.mock.calls[i][1];
+    const positions = uiController.displayShip.mock.calls[i][1][0];
     expect(positions.length).toBe(i + 2);
     positions.forEach((position) => allPositions.add(position));
   }

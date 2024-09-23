@@ -86,7 +86,6 @@ const Controller = () => {
     let res;
     try {
       ship = _shipList[playerIdx].find((ship) => ship.get().name === shipName);
-      console.log("placeShipByUser: ", ship.get(), `$${direction}$`);
       res = player.placeShip(ship, start, direction);
     } catch {
       return uiController.msg("err", "Illegal ship.");
