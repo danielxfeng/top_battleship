@@ -69,6 +69,7 @@ const Controller = () => {
     start,
     direction = Direction.Vertical
   ) => {
+    if (!playerIdx || !shipName || !start) return;
     const player = _playerList[parseInt(playerIdx)];
     if (!player || player.getIsAuto())
       return uiController.msg("err", "Illegal player or ship.");
@@ -134,6 +135,7 @@ const Controller = () => {
   };
 
   const attackByUser = (playerIdx, point) => {
+    if (!playerIdx || !point) return;
     if (!_isUserAttackTurn) return;
     const player = _playerList[parseInt(playerIdx)];
     if (!player || player.getIsAuto())
