@@ -5,11 +5,13 @@ const Gameboard = (length = 10) => {
 
   const placeShip = (ship, points) => {
     const isValid = points.every((point) => _validPoint(point));
-    if (!isValid) return false;
+    if (!isValid) return [false, []];
+    const existShip = _ships.find((list) => list[0] === ship);
     const occupied = points.some((point) => _occupied(point, ship));
-    if (occupied) return false;
+    if (occupied) return [false, []];
     _ships.push([ship, points]);
-    return true;
+    const previous = existShip ? existShip[1] : [];
+    return [true, previous];
   };
 
   const _validPoint = (point) => {

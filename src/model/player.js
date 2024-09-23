@@ -49,9 +49,10 @@ const Player = (idx, ships, isAuto = false, length = 10) => {
     } else {
       throw new Error("Illegal direction value.");
     }
-    if (_gameBoard.placeShip(ship, positions)) {
-      _placed++;
-      return positions;
+    const [placed, previous] = _gameBoard.placeShip(ship, positions);
+    if (placed) {
+      if (!previous.length) _placed++;
+      return [positions, previous];
     }
     return null;
   };

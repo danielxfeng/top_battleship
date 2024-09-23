@@ -15,15 +15,23 @@ const Controller = () => {
   let _attacked = [];
   let _isUserAttackTurn = false;
 
+  const getInitParams = () => {
+    return { length: _length, ships: _shipList[0] };
+  }
+
   const _generateShips = (player) => {
     let ships = [];
     for (let i = 0; i < 4; i++) {
-      ships.push(Ship(`Player-${player}-ship-${i}`, i + 2));
+      ships.push(Ship(`player-${player}-ship-${i}`, i + 2));
     }
     return ships;
   };
 
-  const _init = () => {
+  const init = () => {
+    _shipList = [];
+    _playerList = [];
+    _attacked = [];
+    _isUserAttackTurn = false;
     for (let i = 0; i < _players; i++) {
       const ships = _generateShips(i);
       const isAuto = i === 1;
@@ -35,6 +43,7 @@ const Controller = () => {
     _playerList.forEach((player) =>
       player.setOpposite(_playerList.find((p) => p !== player))
     );
+    uiController.clearBoard();
   };
 
   const startPlaceShips = () => {
@@ -69,20 +78,21 @@ const Controller = () => {
     start,
     direction = Direction.Vertical
   ) => {
-    if (!playerIdx || !shipName || !start) return;
+    if (!shipName || !start) return;
     const player = _playerList[parseInt(playerIdx)];
     if (!player || player.getIsAuto())
       return uiController.msg("err", "Illegal player or ship.");
     let ship;
-    let positions;
+    let res;
     try {
       ship = _shipList[playerIdx].find((ship) => ship.get().name === shipName);
-      positions = player.placeShip(ship, start, direction);
+      console.log("placeShipByUser: ", ship.get(), `$${direction}$`);
+      res = player.placeShip(ship, start, direction);
     } catch {
       return uiController.msg("err", "Illegal ship.");
     }
-    if (positions) {
-      uiController.displayShip(player, positions);
+    if (res) {
+      uiController.displayShip(player, res);
       if (player.placed()) _isReadyForAttackingStage();
     }
   };
@@ -149,9 +159,9 @@ const Controller = () => {
     }
   };
 
-  _init();
+  init();
 
-  return { startPlaceShips, placeShipByUser, startAttack, attackByUser };
+  return { init, getInitParams, startPlaceShips, placeShipByUser, startAttack, attackByUser };
 };
 
 const controller = Controller();

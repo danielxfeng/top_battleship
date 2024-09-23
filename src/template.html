@@ -7,46 +7,44 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="./style.css" />
   </head>
+
   <body>
     <div id="container">
       <header>
-        <h1>Fancy Battleship</h1>
+        <a href="/">
+          <h1>Fancy Battleship</h1>
+        </a>
       </header>
       <main>
         <div id="buttons">
           <button type="button" id="start_new_game">New Game</button>
           <button type="button" id="start_attack">Start Attack</button>
         </div>
-        <div id="battle_zones">
-          <div id="battle_zone-0">
-            <h2>Player</h2>
-            <div id="dock-0">
-              <div id="direction_select">
-                <label>
-                  <input type="radio" name="direction" value="0" />|
-                </label>
-                <label>
-                  <input type="radio" name="direction" value="1" />–
-                </label>
-              </div>
-              <div id="ships-0"></div>
-            </div>
-            <div id="board-0"></div>
-          </div>
-          <div id="msg"></div>
-          <div id="battle_zone-1">
-            <h2>Computer</h2>
-            <div id="dock-1">
-              <div id="ships-1"></div>
-            </div>
-            <div id="board-0"></div>
-          </div>
+        <div id="msg"></div>
+        <div id="names">
+          <h2>Player</h2>
+          <h2>Computer</h2>
         </div>
+        <div id="docks">
+          <div id="dock-0">
+            <div id="direction_select">
+              <label for="direction">Select the direction:</label>
+              <label>
+                <input type="radio" name="direction" value="0" /> |
+              </label>
+              <label>
+                <input type="radio" name="direction" value="1" /> –
+              </label>
+            </div>
+            <div id="ships"></div>
+          </div>
+          <div id="dock-1"></div>
+        </div>
+        <div id="battle_zone"></div>
       </main>
       <footer>
         <p>
