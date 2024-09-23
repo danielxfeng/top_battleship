@@ -1,4 +1,7 @@
+import { Stage, Direction } from "../model/enums";
+
 const UiController = () => {
+
   const msg = (type, info) => {
     return;
   };
@@ -35,6 +38,14 @@ const UiController = () => {
     return;
   };
 
+  const placeShip = () => {
+    return;
+  }
+
+  const attack = () => {
+    return;
+  }
+
   return {
     msg,
     enableUserPlaceShips,
@@ -45,6 +56,8 @@ const UiController = () => {
     disableUserAttacking,
     displayAttacked,
     setGameOver,
+    placeShip,
+    attack
   };
 };
 
