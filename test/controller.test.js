@@ -16,12 +16,8 @@ jest.mock("../src/controller/ui_controller", () => ({
 let computerShips;
 
 beforeEach(() => {
-  jest.useFakeTimers();
-  jest.clearAllMocks();
-});
-
-afterEach(() => {
-  jest.useRealTimers();
+  uiController.displayShip.mockClear();
+  uiController.msg.mockClear();
 });
 
 test("startPlaceShips and auto placing logic", () => {
@@ -40,7 +36,14 @@ test("startPlaceShips and auto placing logic", () => {
   computerShips = allPositions;
 });
 
-test("place ships by user", () => {
+test("place ships by user, invalid placement", () => {
+  controller.placeShipByUser("1", "Player-1-ship-0", "0-0", 0);
+  controller.placeShipByUser("2", "Player-0-ship-0", "0-0", 0);
+  controller.placeShipByUser("0", "Player-0-ship-5", "0-0", 0);
+  expect(uiController.msg).toHaveBeenCalledTimes(3);
+});
+
+test("place ships by user, normal case", () => {
   controller.placeShipByUser("0", "Player-0-ship-0", "0-0", 0);
   controller.placeShipByUser("0", "Player-0-ship-1", "1-0", 0);
   controller.placeShipByUser("0", "Player-0-ship-2", "2-0", 0);
@@ -59,15 +62,19 @@ test("place ships by user", () => {
   expect(uiController.enableUserCanStartAttack).toHaveBeenCalledTimes(1);
 });
 
-test("startAttack and auto attacking logic", () => {
+test("startAttack", () => {
   controller.startAttack();
   expect(uiController.enableUserAttacking).toHaveBeenCalledTimes(1);
-  jest.advanceTimersByTime(500);
-  expect(uiController.displayAttacked).toHaveBeenCalledTimes(1);
+});
+
+test("startAttack invalid attack", () => {
+  controller.attackByUser("2", "0-0");
+  controller.attackByUser("1", "0-0");
+  expect(uiController.msg).toHaveBeenCalledTimes(2);
 });
 
 test("startAttack, user attack", () => {
-  const rand = (limit) => {
+  const rand = () => {
     return Math.floor(Math.random() * 1000) % 10;
   };
 
@@ -77,7 +84,8 @@ test("startAttack, user attack", () => {
     if (!computerShips.has(p1)) break;
   }
   controller.attackByUser("0", p1);
-  computerShips.forEach((point) => controller.attackByUser("0", point));
+
+  computerShips.forEach((point) => {controller.attackByUser("0", point)});
 
   let p2;
   while (true) {
@@ -86,7 +94,9 @@ test("startAttack, user attack", () => {
   }
   controller.attackByUser("0", p2);
   controller.attackByUser("0", p2);
-  expect(uiController.displayAttacked).toHaveBeenCalledTimes(16);
+  expect(uiController.displayAttacked.mock.calls.length).toBeGreaterThanOrEqual(16);
+  expect(uiController.disableUserAttacking).toHaveBeenCalledTimes(1);
+  expect(uiController.setGameOver).toHaveBeenCalledTimes(1);
 });
 
 test("attackByUser", () => {});
