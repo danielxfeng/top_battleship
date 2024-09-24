@@ -6,12 +6,13 @@ jest.mock("../src/controller/ui_controller", () => ({
   enableUserPlaceShips: jest.fn(),
   disableUserPlaceShips: jest.fn(),
   displayShip: jest.fn(),
+  hideShip: jest.fn(),
   enableUserCanStartAttack: jest.fn(),
   enableUserAttacking: jest.fn(),
   disableUserAttacking: jest.fn(),
   displayAttacked: jest.fn(),
   setGameOver: jest.fn(),
-  clearBoard: jest.fn(),
+  clear: jest.fn(),
 }));
 
 let computerShips;
@@ -24,11 +25,10 @@ beforeEach(() => {
 test("startPlaceShips and auto placing logic", () => {
   controller.startPlaceShips();
   expect(uiController.enableUserPlaceShips).toHaveBeenCalled();
-  expect(uiController.displayShip.mock.calls.length).toBe(4);
   expect(uiController.enableUserPlaceShips.mock.calls.length).toBe(1);
   let allPositions = new Set();
   for (let i = 0; i < 4; i++) {
-    const positions = uiController.displayShip.mock.calls[i][1][0];
+    const positions = uiController.hideShip.mock.calls[i][1][0];
     expect(positions.length).toBe(i + 2);
     positions.forEach((position) => allPositions.add(position));
   }
@@ -59,13 +59,13 @@ test("place ships by user, normal case", () => {
   }
   expect(allPositions.size).toBe(14);
   expect(uiController.enableUserCanStartAttack.mock.calls.length).toBe(1);
-  expect(uiController.disableUserPlaceShips).toHaveBeenCalledTimes(1);
   expect(uiController.enableUserCanStartAttack).toHaveBeenCalledTimes(1);
 });
 
 test("startAttack", () => {
   controller.startAttack();
   expect(uiController.enableUserAttacking).toHaveBeenCalledTimes(1);
+  expect(uiController.disableUserPlaceShips).toHaveBeenCalledTimes(1);
 });
 
 test("startAttack invalid attack", () => {

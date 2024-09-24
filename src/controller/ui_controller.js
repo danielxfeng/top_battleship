@@ -31,10 +31,10 @@ const UiController = () => {
     msgText.textContent = info;
     msgText.classList.add(type);
     msg.appendChild(msgText);
-    if (type === "err") {
+    if (type === "err" || type === "info") {
       setTimeout(() => {
         msg.innerHTML = "";
-      }, 3000);
+      }, 5000);
     }
   };
 
@@ -93,6 +93,10 @@ const UiController = () => {
     });
   };
 
+  const hideShip = (player, positions) => {
+    return;
+  };
+
   const enableUserCanStartAttack = () => {
     const attackBtn = document.getElementById("start_attack");
     attackBtn.disabled = false;
@@ -138,6 +142,7 @@ const UiController = () => {
     handlePlacingShipsClick,
     disableUserPlaceShips,
     displayShip,
+    hideShip,
     enableUserCanStartAttack,
     enableUserAttacking,
     disableUserAttacking,

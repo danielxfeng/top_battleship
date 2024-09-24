@@ -51,6 +51,7 @@ const Controller = () => {
   const startPlaceShips = () => {
     _playerList.forEach((player) => player.setStage(Stage.Placing));
     _playerList.forEach((player) => _placeShips(player));
+    uiController.msg("info", "Choose the ships and the direction, then click on the board to place.");
   };
 
   const _placeShips = (player) => {
@@ -66,7 +67,7 @@ const Controller = () => {
         const direction = rand(2);
         const positions = player.placeShip(ship, point, direction);
         if (positions) {
-          //uiController.displayShip(player, positions);
+          uiController.hideShip(player, positions);
           break;
         }
       }
@@ -102,6 +103,7 @@ const Controller = () => {
     const shipsPlaced = _playerList.every((player) => player.placed());
     if (shipsPlaced) {
       uiController.enableUserCanStartAttack();
+      uiController.msg("info", "All ships are placed. Click Start Attack to attack.");
     }
   };
 
@@ -110,6 +112,7 @@ const Controller = () => {
     _playerList.forEach((player) => player.setStage(Stage.Attacking));
     _isUserAttackTurn = true;
     uiController.enableUserAttacking(_playerList[_user]);
+    uiController.msg("info", "Click on the opposite's board to attack.");
   };
 
   const _autoAttack = (player) => {
