@@ -56,7 +56,7 @@ const UiController = () => {
   };
 
   const disableUserPlaceShips = () => {
-    return;
+    console.log("disableUserPlaceShips");
   };
 
   const displayShip = (player, positions) => {
@@ -74,7 +74,7 @@ const UiController = () => {
   };
 
   const enableUserCanStartAttack = () => {
-    return;
+    console.log("enableUserCanStartAttack");
   };
 
   const enableUserAttacking = (player) => {

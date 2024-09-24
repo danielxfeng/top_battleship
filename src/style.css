@@ -1,7 +1,7 @@
 body {
-    background-color: #a5f3fc;
+    background-color: #09090b;
     font-family: "Roboto", sans-serif;
-    color: #3730a3;
+    color: #fbbf24;
     text-align: center;
 }
 
@@ -16,8 +16,8 @@ h1, h2, h3 {
 }
 
 h1 {
-    font-size: 48px;
-    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2), -4px -4px 8px rgba(255, 255, 255, 0.3);
+    font-size: 64px;
+    text-shadow: 2px 2px 4px #fca5a5;
 }
 
 header, footer {
@@ -61,11 +61,11 @@ main {
     padding: 10px 30px;
     border: none;
     border-radius: 10px;
-    background-color: #0284c7;
-    color: #f0f0f0;
+    background-color: #1e293b;
     font-family: "Roboto", sans-serif;
-    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3), -4px -4px 8px rgba(255, 255, 255, 0.3);
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3), -4px -4px 8px rgba(255, 255, 255, 0.3);
+    color: #fbbf24;
+    text-shadow: 2px 2px 4px #fca5a5;
+    box-shadow: 4px 4px 8px rgba(255, 255, 255, 0.1), -4px -4px 8px rgba(0, 0, 0, 0.5);
 }
 
 #msg {
@@ -130,4 +130,8 @@ main {
     border: 1px solid #38bdf8;
     box-sizing: border-box;
     overflow: hidden;
+}
+
+label {
+    font-style: italic;
 }
