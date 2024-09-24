@@ -15,6 +15,10 @@ const Player = (idx, ships, isAuto = false, length = 10) => {
     return _idx;
   };
 
+  const getOpposite = () => {
+    return _opposite;
+  }
+
   const getIsAuto = () => {
     return _isAuto;
   };
@@ -75,6 +79,7 @@ const Player = (idx, ships, isAuto = false, length = 10) => {
   return {
     getIdx,
     getIsAuto,
+    getOpposite,
     placed,
     setStage,
     setOpposite,

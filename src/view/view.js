@@ -1,5 +1,6 @@
 import { Direction } from "../model/enums";
 import controller from "../controller/controller";
+import uiController from "../controller/ui_controller";
 
 const View = () => {
   const init = (params) => {
@@ -51,6 +52,9 @@ const View = () => {
         controller.init();
         controller.startPlaceShips();
     });
+    const startAttack = document.getElementById("start_attack");
+    startAttack.disabled = true;
+    uiController.msg("info", "Press Start to start a new game.");
   };
 
   return {

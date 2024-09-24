@@ -31,10 +31,10 @@ const UiController = () => {
     msgText.textContent = info;
     msgText.classList.add(type);
     msg.appendChild(msgText);
-    if (type === "err") {
+    if (type === "err" || type === "info") {
       setTimeout(() => {
         msg.innerHTML = "";
-      }, 3000);
+      }, 5000);
     }
   };
 
@@ -93,13 +93,17 @@ const UiController = () => {
     });
   };
 
+  const hideShip = (player, positions) => {
+    return;
+  };
+
   const enableUserCanStartAttack = () => {
     const attackBtn = document.getElementById("start_attack");
     attackBtn.disabled = false;
   };
 
-  const enableUserAttacking = (player, opposite) => {
-    const cells = document.querySelectorAll(`.cell_player_${opposite.getIdx()}`);
+  const enableUserAttacking = (player) => {
+    const cells = document.querySelectorAll(`.cell_player_${player.getOpposite().getIdx()}`);
     cells.forEach((cell) => {
       if (!eventHandlersForAttacking[cell.id]) {
         eventHandlersForAttacking[cell.id] = handleAttackingClick(player.getIdx());
@@ -138,6 +142,7 @@ const UiController = () => {
     handlePlacingShipsClick,
     disableUserPlaceShips,
     displayShip,
+    hideShip,
     enableUserCanStartAttack,
     enableUserAttacking,
     disableUserAttacking,
