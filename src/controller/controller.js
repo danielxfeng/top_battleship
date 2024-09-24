@@ -43,7 +43,7 @@ const Controller = () => {
     _playerList.forEach((player) =>
       player.setOpposite(_playerList.find((p) => p !== player))
     );
-    uiController.clearBoard();
+    uiController.clear();
   };
 
   const startPlaceShips = () => {
@@ -64,7 +64,7 @@ const Controller = () => {
         const direction = rand(2);
         const positions = player.placeShip(ship, point, direction);
         if (positions) {
-          uiController.displayShip(player, positions);
+          //uiController.displayShip(player, positions);
           break;
         }
       }
@@ -99,16 +99,17 @@ const Controller = () => {
   const _isReadyForAttackingStage = () => {
     const shipsPlaced = _playerList.every((player) => player.placed());
     if (shipsPlaced) {
-      uiController.disableUserPlaceShips();
       uiController.enableUserCanStartAttack();
     }
   };
 
   const startAttack = () => {
+    uiController.disableUserPlaceShips(_playerList.find((player) => !player.getIsAuto()));
     _playerList.forEach((player) => player.setStage(Stage.Attacking));
     _isUserAttackTurn = true;
     uiController.enableUserAttacking(
-      _playerList.find((player) => !player.getIsAuto())
+      _playerList.find((player) => !player.getIsAuto()),
+      _playerList.find((player) => player.getIsAuto())
     );
   };
 
@@ -126,8 +127,9 @@ const Controller = () => {
     const losedPlayer = _playerList.find((player) => player.lose());
     if (losedPlayer) {
       _isUserAttackTurn = false;
-      uiController.disableUserAttacking();
-      uiController.setGameOver(losedPlayer);
+      uiController.disableUserAttacking(_playerList.find((player) => player.getIsAuto()));
+      const result = losedPlayer.getIdx() === 0 ? "You Lose!" : "You Win!";
+      uiController.setGameOver(result);
       _playerList.forEach((player) => player.setStage(Stage.Over));
       return true;
     }
@@ -138,13 +140,17 @@ const Controller = () => {
     _attacked[player.getIdx()].add(point);
     const ship = player.attack(point);
     if (ship !== undefined) {
-      if (ship) ship.hit();
-      uiController.displayAttacked(point);
+      let isHit = false;
+      if (ship) {
+        ship.hit();
+        isHit = true;
+      }
+      uiController.displayAttacked(_playerList.find((p) => p !== player), point, isHit);
     }
   };
 
   const attackByUser = (playerIdx, point) => {
-    if (!playerIdx || !point) return;
+    if (playerIdx === null || playerIdx === undefined || !point) return;
     if (!_isUserAttackTurn) return;
     const player = _playerList[parseInt(playerIdx)];
     if (!player || player.getIsAuto())

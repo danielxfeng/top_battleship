@@ -87,6 +87,12 @@ main {
     background-color: #fca5a5;
 }
 
+#msg .res {
+    background-color: #fbbf24;
+    color: #94a3b8;
+    font-size: 48px;
+}
+
 #names, #docks, #battle_zones {
     display: flex;
     gap: 50px;
@@ -130,6 +136,14 @@ main {
     border: 1px solid #38bdf8;
     box-sizing: border-box;
     overflow: hidden;
+}
+
+.board .hit {
+    color: #ef4444;
+}
+
+.board .miss {
+    color: #cbd5e1;
 }
 
 label {

@@ -3,13 +3,25 @@ import view from "../view/view";
 import controller from "./controller";
 
 const UiController = () => {
-  const eventHandlers = {};
 
-  const clearBoard = () => {
+  let eventHandlersForPlacingShips = {};
+  let eventHandlersForAttacking = {};
+
+  const clear = () => {
+    const msg = document.getElementById("msg");
+    msg.innerHTML = "";
     const cells = document.querySelectorAll(".board_cell");
     cells.forEach((cell) => {
       cell.textContent = "";
+      cell.classList.remove("hit");
+      cell.classList.remove("miss");
     });
+    const ships = document.querySelectorAll('input[name="ship"]');
+    ships.forEach((ship) => { ship.disabled = false; });
+    const directions = document.querySelectorAll('input[name="direction"]');
+    directions.forEach((direction) => { direction.disabled = false; });
+    eventHandlersForAttacking = {};
+    eventHandlersForPlacingShips = {};
   };
 
   const msg = (type, info) => {
@@ -19,7 +31,7 @@ const UiController = () => {
     msgText.textContent = info;
     msgText.classList.add(type);
     msg.appendChild(msgText);
-    if (msg.type !== "res") {
+    if (type === "err") {
       setTimeout(() => {
         msg.innerHTML = "";
       }, 3000);
@@ -29,13 +41,14 @@ const UiController = () => {
   const enableUserPlaceShips = (player) => {
     const cells = document.querySelectorAll(`.cell_player_${player.getIdx()}`);
     cells.forEach((cell) => {
-      if (!eventHandlers[cell.id]) {
-        eventHandlers[cell.id] = handlePlacingShipsClick(player.getIdx());
-        cell.addEventListener("click", eventHandlers[cell.id]);
+      if (!eventHandlersForPlacingShips[cell.id]) {
+        eventHandlersForPlacingShips[cell.id] = handlePlacingShipsClick(player.getIdx());
+        cell.addEventListener("click", eventHandlersForPlacingShips[cell.id]);
       }
     });
     const attackBtn = document.getElementById("start_attack");
     attackBtn.disabled = true;
+    attackBtn.addEventListener("click", () => {controller.startAttack()});
     return;
   };
 
@@ -55,8 +68,15 @@ const UiController = () => {
     controller.placeShipByUser(playerIdx, shipName, start, direction);
   };
 
-  const disableUserPlaceShips = () => {
-    console.log("disableUserPlaceShips");
+  const disableUserPlaceShips = (player) => {
+    const cells = document.querySelectorAll(`.cell_player_${player.getIdx()}`);
+    cells.forEach((cell) => {
+      cell.removeEventListener("click", eventHandlersForPlacingShips[cell.id]);
+    });
+    const ships = document.querySelectorAll('input[name="ship"]');
+    ships.forEach((ship) => { ship.disabled = true; });
+    const directions = document.querySelectorAll('input[name="direction"]');
+    directions.forEach((direction) => { direction.disabled = true; });
   };
 
   const displayShip = (player, positions) => {
@@ -74,27 +94,45 @@ const UiController = () => {
   };
 
   const enableUserCanStartAttack = () => {
-    console.log("enableUserCanStartAttack");
+    const attackBtn = document.getElementById("start_attack");
+    attackBtn.disabled = false;
   };
 
-  const enableUserAttacking = (player) => {
-    return;
+  const enableUserAttacking = (player, opposite) => {
+    const cells = document.querySelectorAll(`.cell_player_${opposite.getIdx()}`);
+    cells.forEach((cell) => {
+      if (!eventHandlersForAttacking[cell.id]) {
+        eventHandlersForAttacking[cell.id] = handleAttackingClick(player.getIdx());
+        cell.addEventListener("click", eventHandlersForAttacking[cell.id]);
+      }
+    });
   };
 
-  const displayAttacked = (point) => {
-    return;
+  const handleAttackingClick = (playerIdx) => (e) => {
+    const point = e.target.id.split("_")[1];
+    controller.attackByUser(playerIdx, point);
   };
 
-  const disableUserAttacking = () => {
-    return;
+  const displayAttacked = (player, point, isHit) => {
+    const cell = document.getElementById(`${player.getIdx()}_${point}`);
+    const text = isHit ? "ⓧ" : "✕";
+    cell.innerText = text;
+    cell.classList.add(isHit ? "hit" : "miss");
   };
 
-  const setGameOver = (player) => {
-    return;
+  const disableUserAttacking = (player) => {
+    const cells = document.querySelectorAll(`.cell_player_${player.getIdx()}`);
+    cells.forEach((cell) => {
+      cell.removeEventListener("click", eventHandlersForAttacking[cell.id]);
+    });
+  };
+
+  const setGameOver = (info) => {
+    msg("res", info);
   };
 
   return {
-    clearBoard,
+    clear,
     msg,
     enableUserPlaceShips,
     handlePlacingShipsClick,

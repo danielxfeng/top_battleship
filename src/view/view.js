@@ -4,7 +4,10 @@ import controller from "../controller/controller";
 const View = () => {
   const init = (params) => {
     const { length, ships } = params;
+    const msg = document.getElementById("msg");
+    msg.innerHTML = "";
     const battleZone = document.getElementById("battle_zone");
+    battleZone.innerHTML = "";
     for (let i = 0; i < 2; i++) {
       const board = document.createElement("div");
       board.id = `board-${i}`;
