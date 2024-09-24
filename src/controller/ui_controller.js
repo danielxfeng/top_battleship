@@ -98,8 +98,8 @@ const UiController = () => {
     attackBtn.disabled = false;
   };
 
-  const enableUserAttacking = (player, opposite) => {
-    const cells = document.querySelectorAll(`.cell_player_${opposite.getIdx()}`);
+  const enableUserAttacking = (player) => {
+    const cells = document.querySelectorAll(`.cell_player_${player.getOpposite().getIdx()}`);
     cells.forEach((cell) => {
       if (!eventHandlersForAttacking[cell.id]) {
         eventHandlersForAttacking[cell.id] = handleAttackingClick(player.getIdx());

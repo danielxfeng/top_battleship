@@ -10,6 +10,8 @@ const rand = (limit) => {
 const Controller = () => {
   const _length = 10;
   const _players = 2;
+  const _user = 0;
+  const _computer = 1;
   let _shipList = [];
   let _playerList = [];
   let _attacked = [];
@@ -52,7 +54,7 @@ const Controller = () => {
   };
 
   const _placeShips = (player) => {
-    return player.getIsAuto()
+    return player === _playerList[_computer]
       ? _autoPlaceShips(player)
       : uiController.enableUserPlaceShips(player);
   };
@@ -80,7 +82,7 @@ const Controller = () => {
   ) => {
     if (!shipName || !start) return;
     const player = _playerList[parseInt(playerIdx)];
-    if (!player || player.getIsAuto())
+    if (!player || player === _playerList[_computer])
       return uiController.msg("err", "Illegal player or ship.");
     let ship;
     let res;
@@ -104,13 +106,10 @@ const Controller = () => {
   };
 
   const startAttack = () => {
-    uiController.disableUserPlaceShips(_playerList.find((player) => !player.getIsAuto()));
+    uiController.disableUserPlaceShips(_playerList[_user]);
     _playerList.forEach((player) => player.setStage(Stage.Attacking));
     _isUserAttackTurn = true;
-    uiController.enableUserAttacking(
-      _playerList.find((player) => !player.getIsAuto()),
-      _playerList.find((player) => player.getIsAuto())
-    );
+    uiController.enableUserAttacking(_playerList[_user]);
   };
 
   const _autoAttack = (player) => {
@@ -127,7 +126,7 @@ const Controller = () => {
     const losedPlayer = _playerList.find((player) => player.lose());
     if (losedPlayer) {
       _isUserAttackTurn = false;
-      uiController.disableUserAttacking(_playerList.find((player) => player.getIsAuto()));
+      uiController.disableUserAttacking(_playerList[_computer]);
       const result = losedPlayer.getIdx() === 0 ? "You Lose!" : "You Win!";
       uiController.setGameOver(result);
       _playerList.forEach((player) => player.setStage(Stage.Over));
@@ -145,7 +144,7 @@ const Controller = () => {
         ship.hit();
         isHit = true;
       }
-      uiController.displayAttacked(_playerList.find((p) => p !== player), point, isHit);
+      uiController.displayAttacked(player.getOpposite(), point, isHit);
     }
   };
 
@@ -159,8 +158,7 @@ const Controller = () => {
     _attack(player, point);
     if (!_tryGameOver()) {
       _isUserAttackTurn = false;
-      const autoPlayer = _playerList.find((p) => p.getIsAuto());
-      _autoAttack(autoPlayer);
+      _autoAttack(_playerList[_computer]);
     }
   };
 
