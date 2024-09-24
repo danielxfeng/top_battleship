@@ -1,0 +1,151 @@
+body {
+    background-color: #09090b;
+    font-family: "Roboto", sans-serif;
+    color: #fbbf24;
+    text-align: center;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    font-family: "Jersey 15", sans-serif;
+}
+
+h1 {
+    font-size: 64px;
+    text-shadow: 2px 2px 4px #fca5a5;
+}
+
+header, footer {
+    flex: none;
+    height: 75px;
+    display: flex;
+    align-items: center;
+}
+
+header {
+    justify-content: center;
+}
+
+header a, header a:hover, header a:active, footer a, footer a:hover, footer a:active {
+    color: inherit;
+}
+
+header a, header a:hover, header a:active {
+    text-decoration: none;
+}
+
+footer {
+    justify-content: space-around;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#buttons {
+    flex: none;
+    height: 40px;
+    display: flex;
+    justify-content: space-around;
+}
+
+#buttons button {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 10px;
+    background-color: #1e293b;
+    font-family: "Roboto", sans-serif;
+    color: #fbbf24;
+    text-shadow: 2px 2px 4px #fca5a5;
+    box-shadow: 4px 4px 8px rgba(255, 255, 255, 0.1), -4px -4px 8px rgba(0, 0, 0, 0.5);
+}
+
+#msg {
+    flex: none;
+    display: flex;
+    justify-content: center;
+    min-height: 60px;
+}
+
+#msg p {
+    width: 200px;
+    padding: 10px;
+    font-family: "Jersey 15", sans-serif;
+    font-size: large;
+    border-radius: 20px;
+}
+
+#msg .err {
+    background-color: #fca5a5;
+}
+
+#msg .res {
+    background-color: #fbbf24;
+    color: #94a3b8;
+    font-size: 48px;
+}
+
+#names, #docks, #battle_zones {
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+}
+
+#names h2, #docks div, #battle_zone div {
+    flex: 1;
+}
+
+#battle_zone {
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.board {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    padding: 20px;
+}
+
+.board_row {
+    flex: none;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.board_cell {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    max-width: 30px;
+    min-height: 30px;
+    max-height: 30px;
+    background-color: #0284c7;
+    border: 1px solid #38bdf8;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.board .hit {
+    color: #ef4444;
+}
+
+.board .miss {
+    color: #cbd5e1;
+}
+
+label {
+    font-style: italic;
+}
